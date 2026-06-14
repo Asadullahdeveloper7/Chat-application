@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messenger</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a0a;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      overflow: hidden;
+    }
+    .bg {
+      position: fixed; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(0,149,246,.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(131,58,180,.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 60% 80%, rgba(255,0,150,.1)  0%, transparent 50%);
+    }
+    .hero {
+      position: relative; z-index: 1;
+      text-align: center; color: #fff;
+      padding: 40px 20px;
+      max-width: 480px; width: 100%;
+    }
+    .logo {
+      width: 96px; height: 96px;
+      background: linear-gradient(135deg, #0095f6, #833ab4);
+      border-radius: 28px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem;
+      margin: 0 auto 28px;
+      box-shadow: 0 20px 60px rgba(0,149,246,.4);
+    }
+    h1 {
+      font-size: 2.8rem; font-weight: 800; letter-spacing: -1px;
+      background: linear-gradient(135deg, #fff, #a0c4ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 12px;
+    }
+    p { color: rgba(255,255,255,.55); font-size: 1.05rem; line-height: 1.6; margin-bottom: 44px; }
+    .actions { display: flex; flex-direction: column; gap: 14px; }
+    .btn {
+      padding: 16px; border-radius: 14px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: all .25s; border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #0095f6, #0070d0); color: #fff;
+      box-shadow: 0 8px 25px rgba(0,149,246,.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 35px rgba(0,149,246,.55); color: #fff; }
+    .btn-outline {
+      background: rgba(255,255,255,.08); color: #fff;
+      border: 1.5px solid rgba(255,255,255,.15);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,.14); transform: translateY(-2px); color: #fff; }
+    .chips {
+      margin-top: 44px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+    }
+    .chip {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; padding: 16px 8px;
+      transition: all .2s;
+    }
+    .chip:hover { background: rgba(255,255,255,.09); transform: translateY(-3px); }
+    .chip i {
+      font-size: 1.4rem; margin-bottom: 7px;
+      background: linear-gradient(135deg, #0095f6, #833ab4);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .chip span { display: block; font-size: .74rem; color: rgba(255,255,255,.5); font-weight: 600; }
+    @media(max-width:480px){ h1{font-size:2rem} .chips{grid-template-columns:repeat(2,1fr)} }
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="hero">
+  <div class="logo">💬</div>
+  <h1>Messenger</h1>
+  <p>Connect with friends in real-time.<br>Send messages, share photos, stay close.</p>
+  <div class="actions">
+    <a href="/login" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+    <a href="/signup" class="btn btn-outline"><i class="fas fa-user-plus"></i> Create Account</a>
+  </div>
+  <div class="chips">
+    <div class="chip"><i class="fas fa-bolt"></i><span>Real-Time</span></div>
+    <div class="chip"><i class="fas fa-user-friends"></i><span>Friends</span></div>
+    <div class="chip"><i class="fas fa-image"></i><span>Photos</span></div>
+    <div class="chip"><i class="fas fa-lock"></i><span>Secure</span></div>
+  </div>
+</div>
+<script>
+  // If already logged in, go straight to chat
+  if (localStorage.getItem('token')) window.location.href = '/chat';
+</script>
+</body>
+</html>

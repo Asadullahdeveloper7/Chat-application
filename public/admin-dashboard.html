@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Advanced Chat App</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .header {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #7f8c8d;
+      margin: 0;
+    }
+
+    .btn-logout {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      float: right;
+      transition: all 0.3s ease;
+    }
+
+    .btn-logout:hover {
+      background: #ff5252;
+    }
+
+    .content {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 15px;
+    }
+
+    .user-card {
+      background: #f8f9fa;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .user-card:hover {
+      background: #e8eaff;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-info h5 {
+      color: #2c3e50;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .user-info p {
+      color: #7f8c8d;
+      margin: 2px 0;
+      font-size: 0.9rem;
+    }
+
+    .user-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-action {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-approve {
+      background: #12c55a;
+      color: white;
+    }
+
+    .btn-approve:hover {
+      background: #0fa045;
+      transform: translateY(-2px);
+    }
+
+    .btn-reject {
+      background: #ff6b6b;
+      color: white;
+    }
+
+    .btn-reject:hover {
+      background: #ff5252;
+      transform: translateY(-2px);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #7f8c8d;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-card h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .stat-card p {
+      margin: 10px 0 0 0;
+      opacity: 0.9;
+    }
+
+    .alert {
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .login-section {
+      max-width: 400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .login-section h2 {
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      color: #2c3e50;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn-admin-login {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-admin-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .admin-container {
+        padding: 20px;
+      }
+
+      .header {
+        padding: 20px;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      .user-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .user-actions {
+        width: 100%;
+        margin-top: 15px;
+      }
+
+      .btn-action {
+        flex: 1;
+      }
+
+      .btn-logout {
+        float: none;
+        width: 100%;
+        margin-top: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loginForm" class="admin-container" style="display: none; margin-top: 100px;">
+    <div class="login-section">
+      <h2><i class="fas fa-crown"></i> Admin Panel</h2>
+      <div id="alertBox"></div>
+      
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label for="adminPassword">Admin Password</label>
+          <input 
+            type="password" 
+            id="adminPassword" 
+            placeholder="Enter admin password" 
+            required
+          />
+        </div>
+        <button type="submit" class="btn-admin-login">Login as Admin</button>
+      </form>
+      
+      <p style="text-align: center; margin-top: 20px; color: #7f8c8d;">
+        <a href="/" style="color: #667eea; text-decoration: none;">Back to Home</a>
+      </p>
+    </div>
+  </div>
+
+  <div id="adminPanel" style="display: none;">
+    <div class="admin-container">
+      <div class="header">
+        <h1><i class="fas fa-crown"></i> Admin Dashboard</h1>
+        <p>Manage user approvals and monitor platform activity</p>
+        <button class="btn-logout" onclick="logout()">Logout</button>
+        <div style="clear: both;"></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <h3 id="pendingCount">0</h3>
+          <p>Pending Approvals</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="totalUsers">0</h3>
+          <p>Total Users</p>
+        </div>
+      </div>
+
+      <div class="content">
+        <h2 class="section-title"><i class="fas fa-clock"></i> Pending User Approvals</h2>
+        <div id="pendingUsers"></div>
+        <div id="emptyState" class="empty-state" style="display: none;">
+          <i class="fas fa-check-circle"></i>
+          <p>No pending approvals!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let adminToken = localStorage.getItem('adminToken');
+    const loginForm = document.getElementById('loginForm');
+    const adminPanel = document.getElementById('adminPanel');
+    const adminLoginForm = document.getElementById('adminLoginForm');
+    const alertBox = document.getElementById('alertBox');
+
+    if (adminToken) {
+      loginForm.style.display = 'none';
+      adminPanel.style.display = 'block';
+      loadPendingUsers();
+    } else {
+      loginForm.style.display = 'block';
+      adminPanel.style.display = 'none';
+    }
+
+    adminLoginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('adminPassword').value;
+
+      try {
+        const response = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem('adminToken', data.token);
+          adminToken = data.token;
+          loginForm.style.display = 'none';
+          adminPanel.style.display = 'block';
+          alertBox.innerHTML = '<div class="alert alert-success"><i class="fas fa-check-circle"></i> Admin login successful!</div>';
+          setTimeout(() => loadPendingUsers(), 500);
+        } else {
+          alertBox.innerHTML = `<div class="alert alert-danger"><i class="fas fa-times-circle"></i> ${data.error}</div>`;
+        }
+      } catch (err) {
+        alertBox.innerHTML = '<div class="alert alert-danger"><i class="fas fa-times-circle"></i> An error occurred</div>';
+      }
+    });
+
+    async function loadPendingUsers() {
+      try {
+        const response = await fetch('/api/admin/pending-users', {
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+
+        const users = await response.json();
+        const pendingUsersDiv = document.getElementById('pendingUsers');
+        const emptyState = document.getElementById('emptyState');
+
+        document.getElementById('pendingCount').textContent = users.length;
+
+        if (users.length === 0) {
+          pendingUsersDiv.style.display = 'none';
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        pendingUsersDiv.style.display = 'block';
+        emptyState.style.display = 'none';
+        pendingUsersDiv.innerHTML = users.map(user => `
+          <div class="user-card">
+            <div class="user-info">
+              <h5><i class="fas fa-user"></i> ${user.username}</h5>
+              <p><i class="fas fa-envelope"></i> ${user.email}</p>
+              <p><i class="fas fa-calendar"></i> Joined: ${new Date(user.createdAt).toLocaleDateString()}</p>
+            </div>
+            <div class="user-actions">
+              <button class="btn-action btn-approve" onclick="approveUser('${user.id}')">
+                <i class="fas fa-check"></i> Approve
+              </button>
+              <button class="btn-action btn-reject" onclick="rejectUser('${user.id}')">
+                <i class="fas fa-times"></i> Reject
+              </button>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Error loading users:', err);
+      }
+    }
+
+    async function approveUser(userId) {
+      try {
+        const response = await fetch(`/api/admin/approve-user/${userId}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+
+        if (response.ok) {
+          alert('User approved successfully!');
+          loadPendingUsers();
+        }
+      } catch (err) {
+        alert('Error approving user');
+      }
+    }
+
+    async function rejectUser(userId) {
+      if (confirm('Are you sure you want to reject this user?')) {
+        try {
+          const response = await fetch(`/api/admin/reject-user/${userId}`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${adminToken}` }
+          });
+
+          if (response.ok) {
+            alert('User rejected successfully!');
+            loadPendingUsers();
+          }
+        } catch (err) {
+          alert('Error rejecting user');
+        }
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('adminToken');
+      adminToken = null;
+      loginForm.style.display = 'block';
+      adminPanel.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
